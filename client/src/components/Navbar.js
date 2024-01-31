@@ -1,6 +1,6 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
-
+import { Cart2 } from "react-bootstrap-icons";
 import UserContext from "../UserContext";
 import { useContext } from "react";
 
@@ -13,8 +13,10 @@ function AppNavbar() {
         <Container>
           <Navbar.Brand href="/">Fake Store API</Navbar.Brand>
           <Nav className="ms-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="/">
+              <Cart2 size={26} />
+            </Nav.Link>
+            <Nav.Link href="#features"></Nav.Link>
             {user.id !== null ? (
               <Nav.Link href="#pricing">
                 {user.firstName[0]}

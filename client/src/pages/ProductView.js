@@ -10,15 +10,33 @@ const ProductView = () => {
   const [price, setPrice] = useState("");
   const [rating, setRating] = useState("");
   const [imageLink, setImageLink] = useState("");
+  const [quantity, setQuantity] = useState(1);
+
+  const addToCart = () => {
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    fetch(`${API_URL}/cart/add-to-cart`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+      body: JSON.stringify({
+        productId: id,
+        quantity: quantity,
+        productPrice: price,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert("Item successfully added to cart");
+        console.log(data);
+      });
+  };
 
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         if (data) {
           setTitle(data.title);
@@ -35,6 +53,19 @@ const ProductView = () => {
       });
   }, [id]);
 
+  const addQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+    console.log(quantity + 1);
+  };
+
+  const minusQuantity = () => {
+    setQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity > 1 ? prevQuantity - 1 : 1;
+      console.log(newQuantity);
+      return newQuantity;
+    });
+  };
+
   return (
     <Container>
       <Row>
@@ -46,7 +77,15 @@ const ProductView = () => {
           <p>{description}</p>
           <p>Price: ${price}</p>
           <p>Rating: {JSON.stringify(rating)}</p>
-          <Button variant="primary">Add to Order Now</Button>
+          <div>
+            <Button onClick={minusQuantity}>-</Button>
+            <input className="text-center" value={quantity} />
+            <Button onClick={addQuantity}>+</Button>
+          </div>
+          <Button onClick={addToCart} variant="primary">
+            Add To Cart
+          </Button>
+          <Button variant="danger">Buy Now</Button>
         </Col>
       </Row>
     </Container>

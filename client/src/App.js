@@ -5,6 +5,7 @@ import Logout from "./pages/Logout";
 import ProductView from "./pages/ProductView";
 import Home from "./pages/Home";
 import PageNotFound from "./components/PageNotFound";
+import Cart from "./pages/Cart";
 
 import { UserProvider } from "./UserContext";
 import { useEffect, useState } from "react";
@@ -64,10 +65,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/user/login" element={<LoginForm />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductView />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/user/logout" element={<Logout />} />
+          <Route path="/cart/all" element={<Cart />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

@@ -27,7 +27,7 @@ const Products = () => {
             );
           })
           .map((product) => (
-            <Col key={product.id} sm={3}>
+            <Col key={product.id} xs={12} sm={6} md={6} lg={3}>
               <ProductCard key={product.id} productDetails={product} />
             </Col>
           ))}
