@@ -11,6 +11,26 @@ const cartSchema = new mongoose.Schema({
         type: String,
         required: [true, "Product ID is required"],
       },
+      name: {
+        type: String,
+        required: [true, "Required product name"],
+      },
+      description: {
+        type: String,
+        required: [true, "Required product description"],
+      },
+      category: {
+        type: String,
+        required: [true, "Required product category"],
+      },
+      price: {
+        type: Number,
+        required: [true, "Required product price"],
+      },
+      imageLink: {
+        type: String,
+        required: [true, "Required image link"],
+      },
       quantity: {
         type: Number,
         required: [true, "Quantity is required"],

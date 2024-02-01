@@ -13,17 +13,42 @@ function AppNavbar() {
         <Container>
           <Navbar.Brand href="/">Fake Store API</Navbar.Brand>
           <Nav className="ms-auto">
-            <Nav.Link href="/">
+            <NavLink to={"/cart/all"}>
               <Cart2 size={26} />
-            </Nav.Link>
-            <Nav.Link href="#features"></Nav.Link>
+            </NavLink>
+
             {user.id !== null ? (
-              <Nav.Link href="#pricing">
-                {user.firstName[0]}
-                {user.lastName[0]}
-              </Nav.Link>
+              <div class="dropdown show">
+                <a
+                  class="btn dropdown-toggle"
+                  href="#"
+                  id="dropdownMenuLink"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {user.firstName[0]}
+                  {user.lastName[0]}
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">
+                    Account
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    Order
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    Something else here
+                  </a>
+                </div>
+              </div>
             ) : (
-              <Nav.Link href="#pricing">LOGIN</Nav.Link>
+              // <NavLink href="#pricing">
+              //   {user.firstName[0]}
+              //   {user.lastName[0]}
+              // </NavLink>
+              <NavLink href="#pricing">LOGIN</NavLink>
             )}
           </Nav>
         </Container>
