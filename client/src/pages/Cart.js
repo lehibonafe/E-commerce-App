@@ -8,12 +8,11 @@ import {
   Image,
   Form,
 } from "react-bootstrap";
-import { PlusLg, DashLg, ArrowLeft } from "react-bootstrap-icons";
+import { PlusLg, DashLg, ArrowLeft, Trash3 } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState({ cartItems: [] });
-  const [quantity, setQuantity] = useState();
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -85,6 +84,57 @@ const Cart = () => {
       });
   };
 
+  const handleCheckout = () => {
+    fetch(`${API_URL}/orders/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+      body: JSON.stringify(cart.cartItems),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Handle the response from the server
+        console.log("Checkout successful:", data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error during checkout:", error);
+      });
+  };
+
+  const RemoveFromCart = (productId) => {
+    // Remove the item from the server
+
+    fetch(
+      `${process.env.REACT_APP_API_URL}/cart/${productId}/remove-from-cart`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        // Handle the response from the server if needed
+        console.log("Item removed from cart:", data.updatedCart);
+
+        const { cartItems, totalPrice } = data.updatedCart;
+
+        setCart({
+          ...cart,
+          cartItems,
+          totalPrice,
+        });
+      })
+      .catch((error) => {
+        console.error("Error removing item from cart:", error);
+      });
+  };
+
   return (
     <Container className="py-5 h-100">
       <Row className="d-flex justify-content-center align-items-center h-100">
@@ -100,7 +150,7 @@ const Cart = () => {
                     <div className="d-flex justify-content-between align-items-center mb-5">
                       <h1 className="fw-bold mb-0 text-black">Shopping Cart</h1>
                       <h6 className="mb-0 text-muted">
-                        {cart.cartItems.length} items
+                        {cart.cartItems.length} Items
                       </h6>
                     </div>
                     <hr className="my-4" />
@@ -164,8 +214,12 @@ const Cart = () => {
                           <h6 className="mb-0">$ {item.subtotal}</h6>
                         </Col>
                         <Col md={1} lg={1} xl={1} className="text-end">
-                          <Button variant="link" className="text-muted">
-                            <i className="fas fa-times"></i>
+                          <Button
+                            variant="link"
+                            className="text-muted"
+                            onClick={() => RemoveFromCart(item.productId)}
+                          >
+                            <Trash3 />
                           </Button>
                         </Col>
                       </Row>
@@ -175,7 +229,11 @@ const Cart = () => {
 
                     <div className="pt-5">
                       <h6 className="mb-0">
-                        <NavLink to={"/products/"} className="text-body">
+                        <NavLink
+                          to={"/products/"}
+                          className="text-body"
+                          style={{ textDecoration: "none", fontWeight: "bold" }}
+                        >
                           <ArrowLeft className="me-2" />
                           Back to shop
                         </NavLink>
@@ -219,6 +277,7 @@ const Cart = () => {
                       block
                       size="lg"
                       data-mdb-ripple-color="dark"
+                      onClick={handleCheckout}
                     >
                       Checkout
                     </Button>

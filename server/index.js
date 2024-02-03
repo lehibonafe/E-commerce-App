@@ -29,3 +29,6 @@ app.use("/products", productRoute);
 
 const cartRoute = require("./Routes/CartRoutes");
 app.use("/cart", cartRoute);
+
+const orderRoute = require("./Routes/OrderRoute");
+app.use("/orders", orderRoute);

@@ -44,3 +44,18 @@ module.exports.createProduct = async (req, res) => {
     res.status(500).send({ message: "Internal server error." });
   }
 };
+
+module.exports.getProduct = async (req, res) => {
+  try {
+    const result = await Product.findById(req.params.productId);
+
+    if (!result) {
+      return res.status(404).send({ message: "No products found" });
+    }
+
+    return res.status(200).send({ products: result });
+  } catch (error) {
+    console.error(error);
+    return res.status(404).send({ message: "Product does not exist" });
+  }
+};

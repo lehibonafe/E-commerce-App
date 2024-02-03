@@ -23,19 +23,19 @@ const Products = () => {
           .filter((product) => {
             return (
               search.toLowerCase() === "" ||
-              product.title.toLowerCase().includes(search.toLowerCase())
+              product.name.toLowerCase().includes(search.toLowerCase())
             );
           })
           .map((product) => (
-            <Col key={product.id} xs={12} sm={6} md={6} lg={3}>
-              <ProductCard key={product.id} productDetails={product} />
+            <Col key={product.productId} xs={12} sm={6} md={6} lg={3}>
+              <ProductCard productDetails={product} />
             </Col>
           ))}
         {products.length > 0 &&
           products.filter((product) => {
             return (
               search.toLowerCase() === "" ||
-              product.title.toLowerCase().includes(search.toLowerCase())
+              product.name.toLowerCase().includes(search.toLowerCase())
             );
           }).length === 0 && (
             <Col sm={12}>

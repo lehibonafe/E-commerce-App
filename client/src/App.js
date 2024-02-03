@@ -19,20 +19,20 @@ function App() {
   });
   const [products, setProducts] = useState([]);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products/")
+    fetch(`${API_URL}/products/`)
       .then((res) => res.json())
-      .then((products) => {
-        console.log(products);
-        setProducts(products);
+      .then((data) => {
+        console.log(data.products);
+        setProducts(data.products);
       });
   }, []);
 
   const unsetUser = () => {
     localStorage.clear();
   };
-
-  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetch(`${API_URL}/users/details`, {
@@ -67,7 +67,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/user/login" element={<LoginForm />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/products/:id" element={<ProductView />} />
+          <Route path="/products/:productId" element={<ProductView />} />
           <Route path="/user/logout" element={<Logout />} />
           <Route path="/cart/all" element={<Cart />} />
           <Route path="*" element={<PageNotFound />} />

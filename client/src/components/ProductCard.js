@@ -8,20 +8,18 @@ import Card from "react-bootstrap/Card";
 const ProductCard = ({ productDetails }) => {
   const { user } = useContext(UserContext);
 
-  const { id, title, price, description, category, rating, image } =
+  const { _id, name, price, description, category, rating, imageLink } =
     productDetails;
 
   return (
-    <Card>
-      <Card.Img variant="top" src={image} />
+    <Card key={_id}>
+      <Card.Img variant="top" src={imageLink} />
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title>{name}</Card.Title>
         <Card.Text>Price: ${price}</Card.Text>
-        <Card.Text>Review: {JSON.stringify(rating.rate)}</Card.Text>
-
         {user.id !== null ? (
-          <Link to={`/products/${id}`}>
-            <Button>Add to cart</Button>
+          <Link to={`/products/${_id}`}>
+            <Button variant="primary">Buy now</Button>
           </Link>
         ) : (
           <Link to={`/login/`}>

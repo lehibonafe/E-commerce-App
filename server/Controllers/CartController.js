@@ -1,30 +1,31 @@
 const Cart = require("../Models/CartModel");
 const Product = require("../Models/ProductModel");
 
+// Import necessary modules and models
+
 module.exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
     const cartResult = await Cart.findOne({ userId: req.user.id });
 
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).send({ message: "Product does not exist." });
+    }
+    const cartItem = {
+      productId: productId,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      imageLink: product.imageLink,
+      quantity: quantity,
+      subtotal: quantity * product.price,
+    };
+
     if (cartResult) {
-      const product = await Product.findById(productId);
-
-      console.log(product);
-      if (!product) {
-        return res.status(404).send({ message: "Product does not exist." });
-      }
-
-      cartResult.cartItems.push({
-        productId: productId,
-        name: product.name,
-        description: product.description,
-        category: product.category,
-        price: product.price,
-        imageLink: product.imageLink,
-        quantity: quantity,
-        subtotal: quantity * product.price,
-      });
-
+      cartResult.cartItems.push(cartItem);
       cartResult.totalPrice = cartResult.cartItems.reduce(
         (total, item) => total + item.subtotal,
         0
@@ -33,27 +34,10 @@ module.exports.addToCart = async (req, res) => {
       const updatedCart = await cartResult.save();
       res.status(200).send({ message: updatedCart });
     } else {
-      const product = await Product.findById(productId);
-
-      if (!product) {
-        return res.status(404).send({ message: "Product does not exist." });
-      }
-
       const newCart = new Cart({
         userId: req.user.id,
-        cartItems: [
-          {
-            productId: productId,
-            name: product.name,
-            description: product.description,
-            category: product.category,
-            price: product.price,
-            imageLink: product.imageLink,
-            quantity: quantity,
-            subtotal: quantity * product.price,
-          },
-        ],
-        totalPrice: quantity * product.price,
+        cartItems: [cartItem],
+        totalPrice: cartItem.subtotal,
       });
 
       const savedCart = await newCart.save();
@@ -61,7 +45,7 @@ module.exports.addToCart = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: "Internal server error." + error });
+    res.status(500).send({ message: "Internal server error." + error.message });
   }
 };
 
@@ -161,4 +145,58 @@ module.exports.PromiseupdateCartQuantity = async (req, res) => {
     console.error(error);
     res.status(500).send({ message: "Internal server error." + error.message });
   }
+};
+
+module.exports.removeProduct = (req, res) => {
+  Cart.findOne({ userId: req.user.id })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).send({ message: "No cart found." });
+      }
+
+      // Check if the product exists in the cart
+      const productIndex = result.cartItems.findIndex(
+        (item) => item.productId === req.params.productId
+      );
+
+      if (productIndex !== -1) {
+        // Product found, remove it from the cart
+        result.cartItems.splice(productIndex, 1);
+
+        // Update the totalPrice
+        result.totalPrice = result.cartItems.reduce(
+          (total, item) => total + item.subtotal,
+          0
+        );
+
+        // Save the updated cart
+        result
+          .save()
+          .then((updatedCart) =>
+            res.status(200).send({
+              message:
+                "Successfully removed product with productId " +
+                req.params.productId,
+              updatedCart,
+            })
+          )
+          .catch((error) =>
+            res.status(500).send({ message: "Failed to update cart: " + error })
+          );
+      } else {
+        // Product not found in the cart
+        return res.status(404).send({
+          message:
+            "Product with productId " +
+            req.params.productId +
+            " is not in the cart.",
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      return res
+        .status(500)
+        .send({ message: "Internal server error." + error });
+    });
 };

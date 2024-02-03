@@ -4,17 +4,36 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 const ProductView = () => {
-  const { id } = useParams();
-  const [title, setTitle] = useState("");
+  const { productId } = useParams();
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [rating, setRating] = useState("");
+  const [category, setCategory] = useState("");
   const [imageLink, setImageLink] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  const addToCart = () => {
-    const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL;
 
+  useEffect(() => {
+    fetch(`${API_URL}/products/${productId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setName(data.products.name);
+          setDescription(data.products.description);
+          setPrice(data.products.price);
+          setCategory(data.products.category);
+          setImageLink(data.products.imageLink);
+        } else {
+          console.error("Empty response from the API");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [productId]);
+
+  const addToCart = () => {
     fetch(`${API_URL}/cart/add-to-cart`, {
       method: "POST",
       headers: {
@@ -22,9 +41,13 @@ const ProductView = () => {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
       body: JSON.stringify({
-        productId: id,
+        productId: productId,
+        name: name,
+        description: description,
+        category: category,
+        price: price,
+        imageLink: imageLink,
         quantity: quantity,
-        productPrice: price,
       }),
     })
       .then((res) => res.json())
@@ -33,25 +56,6 @@ const ProductView = () => {
         console.log(data);
       });
   };
-
-  useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setTitle(data.title);
-          setDescription(data.description);
-          setPrice(data.price);
-          setRating(data.rating);
-          setImageLink(data.image);
-        } else {
-          console.error("Empty response from the API");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [id]);
 
   const addQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -70,13 +74,12 @@ const ProductView = () => {
     <Container>
       <Row>
         <Col sm={6}>
-          <img src={imageLink} alt={title} style={{ width: "400px" }} />
+          <img src={imageLink} alt={name} style={{ width: "400px" }} />
         </Col>
         <Col sm={6}>
-          <h2>{title}</h2>
+          <h2>{name}</h2>
           <p>{description}</p>
           <p>Price: ${price}</p>
-          <p>Rating: {JSON.stringify(rating)}</p>
           <div>
             <Button onClick={minusQuantity}>-</Button>
             <input className="text-center" value={quantity} />
