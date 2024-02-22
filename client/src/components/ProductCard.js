@@ -12,18 +12,36 @@ const ProductCard = ({ productDetails }) => {
     productDetails;
 
   return (
-    <Card key={_id}>
-      <Card.Img variant="top" src={imageLink} />
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
+    <Card
+      className="my-5 py-2"
+      key={_id}
+      style={{ border: "2px solid #fb8500", height: "400px" }}
+    >
+      <Card.Img
+        style={{ width: "170px", height: "180px" }}
+        className="m-auto"
+        variant="top"
+        src={imageLink}
+      />
+      <Card.Body style={{ height: "100px", overflow: "hidden" }}>
+        <Card.Title
+          className="py-5"
+          style={{ height: "60px", color: "#fb8500", overflow: "hidden" }}
+        >
+          {name}
+        </Card.Title>
         <Card.Text>Price: ${price}</Card.Text>
         {user.id !== null ? (
-          <Link to={`/products/${_id}`}>
-            <Button variant="primary">Buy now</Button>
+          <Link to={`/products/${_id}`} style={{ float: "right" }}>
+            <Button className="border-0" style={{ backgroundColor: "#fb8500" }}>
+              Add to cart
+            </Button>
           </Link>
         ) : (
-          <Link to={`/login/`}>
-            <Button variant="primary">Buy now</Button>
+          <Link to={`/user/login/`}>
+            <Button className="border-0" style={{ backgroundColor: "#fb8500" }}>
+              Buy now
+            </Button>
           </Link>
         )}
       </Card.Body>

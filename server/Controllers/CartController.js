@@ -65,7 +65,7 @@ module.exports.getCarts = async (req, res) => {
 module.exports.updateCartQuantity = async (req, res) => {
   try {
     const cart = await Cart.findOneAndUpdate(
-      { userId: req.user.id, "cartItems.productId": req.body.productId },
+      { userId: req.user.id, "cartItems._id": req.body.productId },
       { $set: { "cartItems.$.quantity": req.body.quantity } },
       { new: true }
     );
@@ -97,49 +97,6 @@ module.exports.updateCartQuantity = async (req, res) => {
     res.status(200).send({
       message: "Successfully changed quantity to " + req.body.quantity,
       updatedCart: cart,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: "Internal server error." + error.message });
-  }
-};
-
-module.exports.PromiseupdateCartQuantity = async (req, res) => {
-  try {
-    const result = await Cart.findOneAndUpdate(
-      { userId: req.user.id, "cartItems.productId": req.body.productId },
-      { $set: { "cartItems.$.quantity": req.body.quantity } },
-      { new: true }
-    );
-
-    if (!result) {
-      return res.status(404).send({
-        message:
-          "The product you're trying to change quantity with is not within the cart.",
-      });
-    }
-
-    const fetchProductDetails = result.cartItems.map(async (item) => {
-      const product = await Product.findById(item.productId);
-      if (!product) {
-        throw new Error("Product not found.");
-      }
-      item.price = product.price;
-      item.subtotal = item.quantity * item.price;
-      return item;
-    });
-
-    const updatedCartItems = await Promise.all(fetchProductDetails);
-    result.totalPrice = updatedCartItems.reduce(
-      (total, item) => total + item.subtotal,
-      0
-    );
-
-    const updatedCart = await result.save();
-
-    res.status(200).send({
-      message: "Successfully changed quantity to " + req.body.quantity,
-      updatedCart,
     });
   } catch (error) {
     console.error(error);

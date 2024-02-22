@@ -4,6 +4,7 @@ import LoginForm from "./components/LoginForm";
 import Logout from "./pages/Logout";
 import ProductView from "./pages/ProductView";
 import Home from "./pages/Home";
+import Register from "./pages/Register";
 import PageNotFound from "./components/PageNotFound";
 import Cart from "./pages/Cart";
 
@@ -66,6 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user/login" element={<LoginForm />} />
+          <Route path="/user/register" element={<Register />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductView />} />
           <Route path="/user/logout" element={<Logout />} />

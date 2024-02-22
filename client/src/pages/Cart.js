@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Container,
   Row,
@@ -10,9 +10,11 @@ import {
 } from "react-bootstrap";
 import { PlusLg, DashLg, ArrowLeft, Trash3 } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
+import UserContext from "../UserContext";
 
 const Cart = () => {
   const [cart, setCart] = useState({ cartItems: [] });
+  const { user } = useContext(UserContext);
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -32,12 +34,12 @@ const Cart = () => {
       });
   }, []);
 
-  const handleQuantityChange = (productId, newQuantity) => {
+  const handleQuantityChange = (_id, newQuantity) => {
     newQuantity = Math.min(Math.max(newQuantity, 1), 10);
     // Find the item in the cart
 
     const updatedCartItems = cart.cartItems.map((item) => {
-      if (item.productId === productId) {
+      if (item._id === _id) {
         // Update the quantity and recalculate the subtotal
         const updatedItem = {
           ...item,
@@ -70,7 +72,7 @@ const Cart = () => {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },
       body: JSON.stringify({
-        productId,
+        productId: _id,
         quantity: newQuantity,
       }),
     })
@@ -176,10 +178,7 @@ const Cart = () => {
                             variant="link"
                             className="px-2"
                             onClick={() =>
-                              handleQuantityChange(
-                                item.productId,
-                                item.quantity - 1
-                              )
+                              handleQuantityChange(item._id, item.quantity - 1)
                             }
                           >
                             <DashLg />
@@ -201,10 +200,7 @@ const Cart = () => {
                             variant="link"
                             className="px-2"
                             onClick={() =>
-                              handleQuantityChange(
-                                item.productId,
-                                item.quantity + 1
-                              )
+                              handleQuantityChange(item._id, item.quantity + 1)
                             }
                           >
                             <PlusLg />

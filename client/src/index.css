@@ -2,7 +2,9 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
+}
+#dropdown-basic::after {
+  display: none;
 }

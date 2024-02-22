@@ -54,25 +54,24 @@ const ProductView = () => {
       .then((data) => {
         alert("Item successfully added to cart");
         console.log(data);
+        window.location.reload();
       });
   };
 
   const addQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
-    console.log(quantity + 1);
   };
 
   const minusQuantity = () => {
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity > 1 ? prevQuantity - 1 : 1;
-      console.log(newQuantity);
       return newQuantity;
     });
   };
 
   return (
     <Container>
-      <Row>
+      <Row className="mt-5">
         <Col sm={6}>
           <img src={imageLink} alt={name} style={{ width: "400px" }} />
         </Col>
@@ -80,15 +79,19 @@ const ProductView = () => {
           <h2>{name}</h2>
           <p>{description}</p>
           <p>Price: ${price}</p>
-          <div>
+          <div className="d-flex align-items-center">
             <Button onClick={minusQuantity}>-</Button>
-            <input className="text-center" value={quantity} />
+            <input className="text-center" value={quantity} readOnly />
             <Button onClick={addQuantity}>+</Button>
           </div>
-          <Button onClick={addToCart} variant="primary">
-            Add To Cart
-          </Button>
-          <Button variant="danger">Buy Now</Button>
+          <div className="mt-2">
+            <Button onClick={addToCart} variant="primary">
+              Add To Cart
+            </Button>
+            <Button className="ms-2" variant="danger">
+              Buy Now
+            </Button>
+          </div>
         </Col>
       </Row>
     </Container>
