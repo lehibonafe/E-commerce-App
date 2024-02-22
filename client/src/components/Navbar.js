@@ -44,6 +44,30 @@ function AppNavbar() {
           <NavLink to={"/products/"}>Fake Store API</NavLink>
         </Navbar.Brand>
         <Nav className="ms-auto w-100 position-relative align-items-baseline">
+          <NavLink
+            style={{ fontSize: "12px", color: "#ffffff" }}
+            className="text-decoration-none px-3"
+          >
+            HOME
+          </NavLink>
+          <NavLink
+            style={{ fontSize: "12px", color: "#ffffff" }}
+            className="text-decoration-none px-3"
+          >
+            PRODUCTS
+          </NavLink>
+          <NavLink
+            style={{ fontSize: "12px", color: "#ffffff" }}
+            className="text-decoration-none px-3"
+          >
+            ABOUT US
+          </NavLink>
+          <NavLink
+            style={{ fontSize: "12px", color: "#ffffff" }}
+            className="text-decoration-none px-3"
+          >
+            CONTACT
+          </NavLink>
           {user.id !== null ? (
             <div className="ms-auto">
               <NavLink
@@ -117,7 +141,7 @@ function AppNavbar() {
           ) : (
             <div>
               <NavLink
-                style={{ fontSize: "14px", color: "#ffffff" }}
+                style={{ fontSize: "12px", color: "#ffffff" }}
                 className="px-2 text-decoration-none"
                 variant="primary"
                 to={"/user/login"}
@@ -125,7 +149,7 @@ function AppNavbar() {
                 LOGIN
               </NavLink>
               <NavLink
-                style={{ fontSize: "14px", color: "#ffffff" }}
+                style={{ fontSize: "12px", color: "#ffffff" }}
                 to={"/user/register"}
                 className="px-2 text-decoration-none"
               >
