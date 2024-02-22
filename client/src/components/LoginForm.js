@@ -27,7 +27,6 @@ const LoginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.access_token) {
-          alert("You are now logged in");
           localStorage.setItem("access", data.access_token);
           retrieveUserDetails(data.access_token);
         }
@@ -79,14 +78,21 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-
-        <Button className="mt-2 float-right" variant="primary" type="submit">
+        <Button
+          style={{ backgroundColor: "#fb8500" }}
+          className="mt-2 border-0"
+          type="submit"
+        >
           Login
         </Button>
       </Form>
-      <p className="text-center mt-4">
+      <p className="text-center mt-5">
         Don't have an account?{" "}
-        <Link className="text-decoration-none" to={"/user/register"}>
+        <Link
+          style={{ color: "#fb8500" }}
+          className="text-decoration-none"
+          to={"/user/register"}
+        >
           Click here.
         </Link>
       </p>

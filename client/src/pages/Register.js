@@ -80,12 +80,20 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Button className="mt-3 w-100" variant="primary" type="submit">
-          Register
+        <Button
+          style={{ backgroundColor: "#fb8500" }}
+          className="mt-3 w-100 border-0"
+          type="submit"
+        >
+          REGISTER
         </Button>
         <p className="mt-4 text-center">
           Already have an account?{" "}
-          <Link to={"/user/login/"} className="text-decoration-none">
+          <Link
+            style={{ color: "#fb8500" }}
+            to={"/user/login/"}
+            className="text-decoration-none"
+          >
             Click here.
           </Link>
         </p>

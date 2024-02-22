@@ -8,3 +8,9 @@
 #dropdown-basic::after {
   display: none;
 }
+
+.dropdown-menu {
+  min-width: 14px !important;
+  border-radius: 0 !important;
+  font-size: 0.9rem !important;
+}

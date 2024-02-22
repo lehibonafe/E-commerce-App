@@ -45,12 +45,14 @@ function AppNavbar() {
         </Navbar.Brand>
         <Nav className="ms-auto w-100 position-relative align-items-baseline">
           <NavLink
+            to={"/"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
             HOME
           </NavLink>
           <NavLink
+            to={"/products/"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
@@ -119,6 +121,7 @@ function AppNavbar() {
                   fontSize: "12px",
                   padding: "9px",
                   textAlign: "center",
+                  fontWeight: "bold",
                 }}
                 id="dropdown-basic"
               >
@@ -130,6 +133,7 @@ function AppNavbar() {
                 <Dropdown.Item href="#/action-1">Orders</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">
                   <NavLink
+                    style={{ color: "#fb8500" }}
                     className="text-decoration-none"
                     to={"/user/logout/"}
                   >
