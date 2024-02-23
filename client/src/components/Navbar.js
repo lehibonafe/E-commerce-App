@@ -122,6 +122,7 @@ function AppNavbar() {
                   padding: "9px",
                   textAlign: "center",
                   fontWeight: "bold",
+                  textTransform: "uppercase",
                 }}
                 id="dropdown-basic"
               >

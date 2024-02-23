@@ -28,7 +28,7 @@ module.exports.registerUser = async (req, res) => {
     await newUser.save();
 
     // Send a success response
-    return res.status(201).json({ message: "User registered successfully" });
+    return res.status(201).json({ message: "Registered Successfully" });
   } catch (error) {
     // Check for duplicate key error (MongoError 11000)
     if (error.code === 11000) {

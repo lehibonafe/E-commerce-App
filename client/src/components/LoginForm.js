@@ -14,7 +14,7 @@ const LoginForm = () => {
   function authenticate(e) {
     e.preventDefault();
 
-    fetch(`${API_URL}/users/login`, {
+    fetch(`${API_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const LoginForm = () => {
   }
 
   const retrieveUserDetails = (token) => {
-    fetch(`${API_URL}/users/details`, {
+    fetch(`${API_URL}/user/details`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

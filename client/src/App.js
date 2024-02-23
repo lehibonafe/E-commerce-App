@@ -36,7 +36,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch(`${API_URL}/users/details`, {
+    fetch(`${API_URL}/user/details`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access")}`,
       },

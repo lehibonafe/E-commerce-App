@@ -22,7 +22,7 @@ app.listen(PORT, () => {
 });
 
 const userRoute = require("./Routes/UserRoutes");
-app.use("/users", userRoute);
+app.use("/user", userRoute);
 
 const productRoute = require("./Routes/ProductsRoutes");
 app.use("/products", productRoute);

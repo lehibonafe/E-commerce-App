@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -10,6 +12,8 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const { firstName, lastName, email, password, confirmPassword } = formData; // Destructuring formData
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,15 +23,78 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log(formData);
-  };
+  // useEffect(() => {
+  //   if (
+  //     firstName !== "" &&
+  //     lastName !== "" &&
+  //     email !== "" &&
+  //     password !== "" &&
+  //     confirmPassword !== "" &&
+  //     password === confirmPassword
+  //   ) {
+  //     // enables the button
+  //     setIsActive(true);
+  //   } else {
+  //     setIsActive(false);
+  //   }
+  // }, [firstName, lastName, email, mobileNo, password, confirmPassword]);
+
+  function registerUser(event) {
+    event.preventDefault();
+
+    const API_URL = process.env.REACT_APP_API_URL;
+
+    fetch(`${API_URL}/user/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === "Registered Successfully") {
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Registered successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/user/login/");
+        } else {
+          // If the registration is not successful, handle it here
+          Swal.fire({
+            icon: "error",
+            title: data.error, // Display the message received from the server
+            text: data.message,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Registration failed",
+          text: "An error occurred while registering. Please try again later.",
+        });
+      });
+  }
 
   return (
     <Container className="d-flex justify-content-center align-items-center">
-      <Form style={{ width: "400px" }} onSubmit={handleSubmit}>
+      <Form style={{ width: "400px" }} onSubmit={registerUser}>
         <h1 className="text-center mt-5">Register</h1>
 
         <Form.Group className="mt-4" controlId="firstName">
@@ -85,7 +152,7 @@ const Register = () => {
           className="mt-3 w-100 border-0"
           type="submit"
         >
-          REGISTER
+          SUBMIT
         </Button>
         <p className="mt-4 text-center">
           Already have an account?{" "}
