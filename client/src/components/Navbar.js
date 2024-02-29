@@ -7,7 +7,7 @@ import ShopSwift from "../images/ShopSwift.svg";
 
 function AppNavbar() {
   const { user } = useContext(UserContext);
-  const [cart, setCart] = useState({ cartItems: [] });
+  const [cart, setCart] = useState(null);
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -23,14 +23,18 @@ function AppNavbar() {
         setCart(products);
       })
       .catch((error) => {});
-  }, [cart]);
+  }, []);
+
+  // Check if cart is null before accessing its properties
+  const cartItemsCount = cart && cart.cartItems ? cart.cartItems.length : 0;
 
   return (
     <Navbar style={{ backgroundColor: "#fb8500" }} data-bs-theme="light">
       <Container>
         <Navbar.Brand>
-          <img style={{ width: "130px" }} src={ShopSwift} />
-          <NavLink to={"/products/"}></NavLink>
+          <NavLink to={"/"}>
+            <img style={{ width: "130px" }} src={ShopSwift} />
+          </NavLink>
         </Navbar.Brand>
         <Nav className="ms-auto w-100 position-relative align-items-baseline">
           <NavLink
@@ -84,7 +88,7 @@ function AppNavbar() {
                     color: "#fb8500",
                   }}
                 >
-                  {cart.cartItems.length}
+                  {cartItemsCount}
                 </div>
               </NavLink>
             </div>

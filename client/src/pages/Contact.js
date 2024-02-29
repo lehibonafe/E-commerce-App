@@ -5,7 +5,9 @@ import Footer from "../components/Footer";
 const Contact = () => {
   return (
     <Container>
-      <h1>Contact</h1>
+      <h1 style={{ color: "#fb8500" }} className="mt-5">
+        Contact
+      </h1>
       <Footer />
     </Container>
   );

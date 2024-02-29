@@ -14,8 +14,9 @@ import UserContext from "../UserContext";
 import Swal from "sweetalert2";
 
 const Cart = () => {
-  const [cart, setCart] = useState({ cartItems: [] });
+  const [cart, setCart] = useState(null);
   const { user } = useContext(UserContext);
+  const [selectedShippingFee, setSelectedShippingFee] = useState(5);
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -35,6 +36,9 @@ const Cart = () => {
       });
   }, []);
 
+  const cartItemsCount =
+    cart && cart.cartItems && cart.cartItems ? cart.cartItems.length : 0;
+
   const handleQuantityChange = (_id, newQuantity) => {
     newQuantity = Math.min(Math.max(newQuantity, 1), 10);
     // Find the item in the cart
@@ -42,6 +46,7 @@ const Cart = () => {
     const updatedCartItems = cart.cartItems.map((item) => {
       if (item._id === _id) {
         // Update the quantity and recalculate the subtotal
+
         const updatedItem = {
           ...item,
           quantity: newQuantity,
@@ -118,7 +123,6 @@ const Cart = () => {
             .then((data) => {
               // Handle the response from the server
               console.log("Checkout successful:", data);
-              window.location.reload();
             })
             .catch((error) => {
               console.error("Error during checkout:", error);
@@ -180,75 +184,88 @@ const Cart = () => {
                     <div className="d-flex justify-content-between align-items-center mb-5">
                       <h1 className="fw-bold mb-0 text-black">Shopping Cart</h1>
                       <h6 className="mb-0 text-muted">
-                        {cart.cartItems.length} Items
+                        {cartItemsCount} Items
                       </h6>
                     </div>
                     <hr className="my-4" />
-
-                    {cart.cartItems.map((item) => (
-                      <Row
-                        key={item._id}
-                        className="mb-4 d-flex justify-content-between align-items-center"
-                      >
-                        <Col md={2} lg={2} xl={2}>
-                          <Image
-                            src={item.imageLink}
-                            className="img-fluid rounded-3"
-                            alt={item.name}
-                          />
-                        </Col>
-                        <Col md={3} lg={3} xl={3}>
-                          <h6 className="text-black mb-0">{item.name}</h6>
-                          <h6 className="text-muted mt-4">{item.category}</h6>
-                        </Col>
-                        <Col md={3} lg={3} xl={2} className="d-flex">
-                          <Button
-                            style={{ color: "#fb8500" }}
-                            variant="link"
-                            className="px-2"
-                            onClick={() =>
-                              handleQuantityChange(item._id, item.quantity - 1)
-                            }
+                    {cart !== null && cart.cartItems.length > 0 ? (
+                      <>
+                        {cart.cartItems.map((item) => (
+                          <Row
+                            key={item._id}
+                            className="mb-4 d-flex justify-content-between align-items-center"
                           >
-                            <DashLg />
-                          </Button>
-                          <Form.Control
-                            id={`form${item.productId}`}
-                            name="quantity"
-                            min="1"
-                            max="10"
-                            value={item.quantity}
-                            type="number"
-                            className="form-control form-control-sm text-center"
-                            readOnly
-                            style={{
-                              width: "100px",
-                            }}
-                          />
-                          <Button
-                            variant="link"
-                            className="px-2"
-                            onClick={() =>
-                              handleQuantityChange(item._id, item.quantity + 1)
-                            }
-                          >
-                            <PlusLg style={{ color: "#fb8500" }} />
-                          </Button>
-                        </Col>
-                        <Col md={3} lg={2} xl={2} className="offset-lg-1">
-                          <h6 className="mb-0">$ {item.subtotal}</h6>
-                        </Col>
-                        <Col md={1} lg={1} xl={1} className="text-end">
-                          <Button
-                            variant="link"
-                            className="text-muted"
-                            onClick={() => RemoveFromCart(item.productId)}
-                          >
-                            <Trash3 />
-                          </Button>
-                        </Col>
-                      </Row>
-                    ))}
+                            <Col md={2} lg={2} xl={2}>
+                              <Image
+                                src={item.imageLink}
+                                className="img-fluid rounded-3"
+                                alt={item.name}
+                              />
+                            </Col>
+                            <Col md={3} lg={3} xl={3}>
+                              <h6 className="text-black mb-0">{item.name}</h6>
+                              <h6 className="text-muted mt-4">
+                                {item.category}
+                              </h6>
+                            </Col>
+                            <Col md={3} lg={3} xl={2} className="d-flex">
+                              <Button
+                                style={{ color: "#fb8500" }}
+                                variant="link"
+                                className="px-2"
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    item._id,
+                                    item.quantity - 1
+                                  )
+                                }
+                              >
+                                <DashLg />
+                              </Button>
+                              <Form.Control
+                                id={`form${item.productId}`}
+                                name="quantity"
+                                min="1"
+                                max="10"
+                                value={item.quantity}
+                                type="number"
+                                className="form-control form-control-sm text-center"
+                                readOnly
+                                style={{
+                                  width: "100px",
+                                }}
+                              />
+                              <Button
+                                variant="link"
+                                className="px-2"
+                                onClick={() =>
+                                  handleQuantityChange(
+                                    item._id,
+                                    item.quantity + 1
+                                  )
+                                }
+                              >
+                                <PlusLg style={{ color: "#fb8500" }} />
+                              </Button>
+                            </Col>
+                            <Col md={3} lg={2} xl={2} className="offset-lg-1">
+                              <h6 className="mb-0">$ {item.subtotal}</h6>
+                            </Col>
+                            <Col md={1} lg={1} xl={1} className="text-end">
+                              <Button
+                                variant="link"
+                                className="text-muted"
+                                onClick={() => RemoveFromCart(item.productId)}
+                              >
+                                <Trash3 />
+                              </Button>
+                            </Col>
+                          </Row>
+                        ))}
+                      </>
+                    ) : (
+                      <p>No items in the cart</p>
+                    )}
 
                     <hr className="my-4" />
 
@@ -272,20 +289,27 @@ const Cart = () => {
                     <hr className="my-4" />
 
                     <div className="d-flex justify-content-between mb-4">
-                      <h5 className="text-uppercase">
-                        items {cart.cartItems.length}
+                      <h5 className="text-uppercase">items {cartItemsCount}</h5>
+                      <h5>
+                        {" "}
+                        {cart !== null &&
+                        cart.cartItems &&
+                        cart.cartItems.length > 0
+                          ? // If cart and cartItems exist, display the total price
+                            `$ ${cart.totalPrice}`
+                          : // If cart or cartItems don't exist, or cartItems is empty, display 0
+                            "$ 0"}
                       </h5>
-                      <h5>€ {/* Calculate total price */}</h5>
                     </div>
 
                     <h5 className="text-uppercase mb-3">Shipping</h5>
 
                     <div className="mb-4 pb-2">
                       <Form.Select className="select">
-                        <option value="1">Standard-Delivery- €5.00</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
+                        <option value="1">Standard-Delivery- $5.00</option>
+                        <option value="2">Two hours</option>
+                        <option value="3">Three hours</option>
+                        <option value="4">Four hours</option>
                       </Form.Select>
                     </div>
 
@@ -293,7 +317,15 @@ const Cart = () => {
 
                     <div className="d-flex justify-content-between mb-5">
                       <h5 className="text-uppercase">Total price: </h5>
-                      <h5>$ {cart.totalPrice}</h5>
+                      <h5>
+                        {cart !== null &&
+                        cart.cartItems &&
+                        cart.cartItems.length > 0
+                          ? // If cart and cartItems exist, display the total price
+                            `$ ${cart.totalPrice}`
+                          : // If cart or cartItems don't exist, or cartItems is empty, display 0
+                            "$ 0"}
+                      </h5>
                     </div>
 
                     <Button

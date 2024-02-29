@@ -27,11 +27,10 @@ const AboutUs = () => {
           </p>
         </Col>
         <Col md={6}>
-          <img
-            src="https://via.placeholder.com/400x300"
+          {/* <img
             alt="About Us"
             className="img-fluid"
-          />
+          /> */}
         </Col>
       </Row>
       <Footer />

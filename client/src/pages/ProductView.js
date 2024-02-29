@@ -58,12 +58,6 @@ const ProductView = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        Swal.fire({
-          icon: "success",
-          title: "Item added to cart successful",
-          showConfirmButton: true,
-          timer: 1500,
-        });
 
         Swal.fire({
           title: "Item added to cart successful",
@@ -76,9 +70,11 @@ const ProductView = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             navigate("/products/");
+            window.location.reload();
           }
           if (result.dismiss === Swal.DismissReason.cancel) {
             navigate("/cart/all/");
+            window.location.reload();
           }
         });
       });
