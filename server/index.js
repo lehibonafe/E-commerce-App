@@ -20,7 +20,13 @@ app.use(
     saveUninitialized: false,
   })
 );
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://vercel.com/lehibonafes-projects/e-commerce-app-server"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
