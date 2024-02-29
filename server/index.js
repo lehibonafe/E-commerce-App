@@ -36,3 +36,5 @@ app.use("/cart", cartRoute);
 
 const orderRoute = require("./Routes/OrderRoute");
 app.use("/orders", orderRoute);
+
+module.exports = app;
