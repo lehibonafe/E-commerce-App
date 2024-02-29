@@ -22,7 +22,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: ["https://vercel.com/lehibonafes-projects/e-commerce-app-server"],
+    origin: ["https://e-commerce-app-server-bay.vercel.app/"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
