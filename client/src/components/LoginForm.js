@@ -8,6 +8,7 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [accountError, setAccountError] = useState("");
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -29,9 +30,11 @@ const LoginForm = () => {
         if (data.access_token) {
           localStorage.setItem("access", data.access_token);
           retrieveUserDetails(data.access_token);
+          setEmail("");
+          setPassword("");
+        } else {
+          setAccountError(data.message);
         }
-        setEmail("");
-        setPassword("");
       });
   }
 
@@ -59,33 +62,47 @@ const LoginForm = () => {
         style={{ maxWidth: "400px", margin: "auto" }}
         onSubmit={(e) => authenticate(e)}
       >
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+        <h2 className="text-center">ACCOUNT LOGIN</h2>
+        <hr className="my-4" style={{ width: "20%", margin: "auto" }} />
+        <Form.Group className="mt-5" controlId="formBasicEmail">
+          <Form.Label className="fw-bold" style={{ color: "#fb8500" }}>
+            Email address :
+          </Form.Label>
           <Form.Control
+            style={{ fontSize: ".8rem" }}
+            className="shadow-none"
             type="email"
-            placeholder="Enter email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="mt-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label className="fw-bold" style={{ color: "#fb8500" }}>
+            Password :
+          </Form.Label>
           <Form.Control
+            style={{ fontSize: ".8rem" }}
+            className="shadow-none p-2"
             type="password"
-            placeholder="Password"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+        <p className="text-center my-2" style={{ color: "#ff3333" }}>
+          {accountError}
+        </p>
         <Button
           style={{ backgroundColor: "#fb8500" }}
-          className="mt-2 border-0"
+          className="mt-4 border-0 w-100"
           type="submit"
         >
           Login
         </Button>
       </Form>
+
       <p className="text-center mt-5">
         Don't have an account?{" "}
         <Link

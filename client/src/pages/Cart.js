@@ -11,6 +11,7 @@ import {
 import { PlusLg, DashLg, ArrowLeft, Trash3 } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
 import UserContext from "../UserContext";
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const [cart, setCart] = useState({ cartItems: [] });
@@ -87,23 +88,50 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    fetch(`${API_URL}/orders/checkout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-      body: JSON.stringify(cart.cartItems),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // Handle the response from the server
-        console.log("Checkout successful:", data);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error during checkout:", error);
+    if (cart.cartItems.length === 0 || cart.cartItems.length === null) {
+      Swal.fire({
+        icon: "error",
+        title: "Empty cart",
+        text: "Please add items to your cart.",
       });
+    } else {
+      Swal.fire({
+        title: "Are you sure to checkout?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Checkout",
+        confirmButtonColor: "#fb8500",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`${API_URL}/orders/checkout`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+            body: JSON.stringify(cart.cartItems),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              // Handle the response from the server
+              console.log("Checkout successful:", data);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Error during checkout:", error);
+            });
+
+          Swal.fire({
+            title: "Checkout successful!",
+            text: "Your items is ready to be delivered.",
+            icon: "success",
+          });
+        }
+      });
+    }
   };
 
   const RemoveFromCart = (productId) => {
@@ -175,6 +203,7 @@ const Cart = () => {
                         </Col>
                         <Col md={3} lg={3} xl={2} className="d-flex">
                           <Button
+                            style={{ color: "#fb8500" }}
                             variant="link"
                             className="px-2"
                             onClick={() =>
@@ -203,7 +232,7 @@ const Cart = () => {
                               handleQuantityChange(item._id, item.quantity + 1)
                             }
                           >
-                            <PlusLg />
+                            <PlusLg style={{ color: "#fb8500" }} />
                           </Button>
                         </Col>
                         <Col md={3} lg={2} xl={2} className="offset-lg-1">

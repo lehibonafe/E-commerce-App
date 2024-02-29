@@ -50,14 +50,14 @@ module.exports.loginUser = async (req, res) => {
 
     // Check if the user exists
     if (!user) {
-      return res.status(401).json({ message: "Email doesn't exist" });
+      return res.status(401).json({ message: "Account doesn't exist." });
     }
 
     // Compare the provided password with the hashed password stored in the database
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password." });
     }
 
     // You can generate and send a token here for authentication if needed

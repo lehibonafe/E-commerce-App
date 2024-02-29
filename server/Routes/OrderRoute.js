@@ -5,7 +5,7 @@ const orderController = require("../Controllers/OrderController");
 const auth = require("../auth");
 const { verify } = auth;
 
-router.post("/my-orders", verify, orderController.getAllOrders);
+router.get("/my-orders", verify, orderController.getAllOrders);
 router.post("/checkout", verify, orderController.userCheckout);
 
 module.exports = router;

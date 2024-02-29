@@ -95,7 +95,9 @@ const Register = () => {
   return (
     <Container className="d-flex justify-content-center align-items-center">
       <Form style={{ width: "400px" }} onSubmit={registerUser}>
-        <h1 className="text-center mt-5">Register</h1>
+        <h1 style={{ color: "#fb8500" }} className="text-center mt-5">
+          Register
+        </h1>
 
         <Form.Group className="mt-4" controlId="firstName">
           <Form.Label>First Name</Form.Label>
@@ -107,7 +109,7 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Form.Group controlId="lastName">
+        <Form.Group className="mt-2" controlId="lastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
@@ -117,7 +119,7 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Form.Group controlId="email">
+        <Form.Group className="mt-2" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -127,7 +129,7 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Form.Group controlId="password">
+        <Form.Group className="mt-2" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -137,7 +139,7 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <Form.Group controlId="confirmPassword">
+        <Form.Group className="mt-2" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"

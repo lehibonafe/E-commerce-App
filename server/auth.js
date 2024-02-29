@@ -27,7 +27,6 @@ module.exports.verify = (req, res, next) => {
           message: err.message,
         });
       } else {
-        console.log(decodedToken);
         req.user = decodedToken;
 
         next();

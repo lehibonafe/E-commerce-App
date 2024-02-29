@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import PageNotFound from "./components/PageNotFound";
 import Cart from "./pages/Cart";
+import Order from "./pages/Order";
 
 import { UserProvider } from "./UserContext";
 import { useEffect, useState } from "react";
@@ -26,7 +27,6 @@ function App() {
     fetch(`${API_URL}/products/`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.products);
         setProducts(data.products);
       });
   }, []);
@@ -72,6 +72,7 @@ function App() {
           <Route path="/products/:productId" element={<ProductView />} />
           <Route path="/user/logout" element={<Logout />} />
           <Route path="/cart/all" element={<Cart />} />
+          <Route path="/orders/my-orders/" element={<Order />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

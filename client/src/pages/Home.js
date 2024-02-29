@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Footer from "../components/Footer";
 import landingImage from "../images/cheerful-woman.jpg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -10,7 +11,6 @@ const Home = () => {
         fluid
         style={{
           backgroundColor: "#fb8500",
-          height: "100vh",
           overflow: "hidden",
         }}
       >
@@ -24,9 +24,13 @@ const Home = () => {
                 Explore our wide range of products and find exactly what you
                 need. From fashion to electronics, we've got it all!
               </p>
-              <button style={{ color: "#fb8500" }} className="btn btn-light">
+              <Link
+                to={"/products/"}
+                style={{ color: "#fb8500" }}
+                className="btn btn-light"
+              >
                 Shop Now
-              </button>
+              </Link>
             </Col>
 
             <Col lg={6} className="d-flex align-items-center">

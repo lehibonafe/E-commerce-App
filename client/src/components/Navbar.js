@@ -1,24 +1,14 @@
-import { React, useState, useContext, useEffect } from "react";
-import {
-  Navbar,
-  Container,
-  Nav,
-  Dropdown,
-  Modal,
-  Button,
-  Form,
-} from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
-import { Cart, Cart2 } from "react-bootstrap-icons";
+import React, { useState, useContext, useEffect, useMemo } from "react";
+import { Navbar, Container, Nav, Dropdown } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { Cart2 } from "react-bootstrap-icons";
 import UserContext from "../UserContext";
-import LoginForm from "./LoginForm";
+import ShopSwift from "../images/ShopSwift.svg";
 
 function AppNavbar() {
-  const { user, unsetUser } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(UserContext);
   const [cart, setCart] = useState({ cartItems: [] });
 
-  // Your useEffect hook remains the same
   const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -32,16 +22,15 @@ function AppNavbar() {
       .then((products) => {
         setCart(products);
       })
-      .catch((error) => {
-        console.error("Error fetching cart data:", error);
-      });
-  }, []);
+      .catch((error) => {});
+  }, [cart]);
 
   return (
     <Navbar style={{ backgroundColor: "#fb8500" }} data-bs-theme="light">
       <Container>
         <Navbar.Brand>
-          <NavLink to={"/products/"}>Fake Store API</NavLink>
+          <img style={{ width: "130px" }} src={ShopSwift} />
+          <NavLink to={"/products/"}></NavLink>
         </Navbar.Brand>
         <Nav className="ms-auto w-100 position-relative align-items-baseline">
           <NavLink
@@ -59,12 +48,14 @@ function AppNavbar() {
             PRODUCTS
           </NavLink>
           <NavLink
+            to={"/about"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
             ABOUT US
           </NavLink>
           <NavLink
+            to={"/contact"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
@@ -78,25 +69,23 @@ function AppNavbar() {
                 to={"/cart/all"}
               >
                 <Cart2 size={35} />
-                {cart.cartItems && (
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{
-                      position: "absolute",
-                      backgroundColor: "#ffffff",
-                      borderRadius: "100%",
-                      width: "16px",
-                      height: "16px",
-                      textAlign: "center",
-                      fontSize: "10px",
-                      top: "-5px",
-                      right: "-2px",
-                      color: "#fb8500",
-                    }}
-                  >
-                    {cart.cartItems.length}
-                  </div>
-                )}
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "#ffffff",
+                    borderRadius: "100%",
+                    width: "16px",
+                    height: "16px",
+                    textAlign: "center",
+                    fontSize: "10px",
+                    top: "-5px",
+                    right: "-2px",
+                    color: "#fb8500",
+                  }}
+                >
+                  {cart.cartItems.length}
+                </div>
               </NavLink>
             </div>
           ) : (
@@ -130,9 +119,9 @@ function AppNavbar() {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Account</Dropdown.Item>
-                <Dropdown.Item href="#/action-1">Orders</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">
+                <Dropdown.Item>Account</Dropdown.Item>
+                <Dropdown.Item>Orders</Dropdown.Item>
+                <Dropdown.Item>
                   <NavLink
                     style={{ color: "#fb8500" }}
                     className="text-decoration-none"
