@@ -13,6 +13,13 @@ mongoose
   .then(() => console.log("MongoDB is connected successfully"))
   .catch((err) => console.error(err));
 
+app.use(
+  session({
+    secret: process.env.secret,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
