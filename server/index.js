@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
-const { MONGODB_URL, PORT } = process.env;
+const { MONGODB_URL, PORT, SECRET } = process.env;
 
 mongoose
   .connect(MONGODB_URL, {
@@ -15,7 +15,7 @@ mongoose
 
 app.use(
   session({
-    secret: process.env.secret,
+    secret: SECRET,
     resave: false,
     saveUninitialized: false,
   })
