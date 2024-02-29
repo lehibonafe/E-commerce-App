@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import PageNotFound from "./components/PageNotFound";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import AboutUs from "./pages/AboutUs";
+import Contact from "./pages/Contact";
 
 import { UserProvider } from "./UserContext";
 import { useEffect, useState } from "react";
@@ -73,6 +75,8 @@ function App() {
           <Route path="/user/logout" element={<Logout />} />
           <Route path="/cart/all" element={<Cart />} />
           <Route path="/orders/my-orders/" element={<Order />} />
+          <Route path="/about-us/" element={<AboutUs />} />
+          <Route path="/contact/" element={<Contact />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

@@ -48,14 +48,14 @@ function AppNavbar() {
             PRODUCTS
           </NavLink>
           <NavLink
-            to={"/about"}
+            to={"/about-us/"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
             ABOUT US
           </NavLink>
           <NavLink
-            to={"/contact"}
+            to={"/contact/"}
             style={{ fontSize: "12px", color: "#ffffff" }}
             className="text-decoration-none px-3"
           >
