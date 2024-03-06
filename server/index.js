@@ -14,15 +14,8 @@ mongoose
   .catch((err) => console.error(err));
 
 app.use(
-  session({
-    secret: SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(
   cors({
-    origin: ["https://e-commerce-app-server-bay.vercel.app/"],
+    // origin: ["https://e-commerce-app-server-bay.vercel.app/"],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })

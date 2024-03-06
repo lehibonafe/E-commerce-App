@@ -12,6 +12,7 @@ import { PlusLg, DashLg, ArrowLeft, Trash3 } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
 import UserContext from "../UserContext";
 import Swal from "sweetalert2";
+import Roll from "../images/roll.svg";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
@@ -210,17 +211,16 @@ const Cart = () => {
                             </Col>
                             <Col md={3} lg={3} xl={2} className="d-flex">
                               <Button
-                                style={{ color: "#fb8500" }}
                                 variant="link"
                                 className="px-2"
                                 onClick={() =>
                                   handleQuantityChange(
                                     item._id,
-                                    item.quantity - 1
+                                    item.quantity + 1
                                   )
                                 }
                               >
-                                <DashLg />
+                                <PlusLg style={{ color: "#fb8500" }} />
                               </Button>
                               <Form.Control
                                 id={`form${item.productId}`}
@@ -236,16 +236,17 @@ const Cart = () => {
                                 }}
                               />
                               <Button
+                                style={{ color: "#fb8500" }}
                                 variant="link"
                                 className="px-2"
                                 onClick={() =>
                                   handleQuantityChange(
                                     item._id,
-                                    item.quantity + 1
+                                    item.quantity - 1
                                   )
                                 }
                               >
-                                <PlusLg style={{ color: "#fb8500" }} />
+                                <DashLg />
                               </Button>
                             </Col>
                             <Col md={3} lg={2} xl={2} className="offset-lg-1">
@@ -264,7 +265,9 @@ const Cart = () => {
                         ))}
                       </>
                     ) : (
-                      <p>No items in the cart</p>
+                      <div className="text-center">
+                        <img src={Roll} />
+                      </div>
                     )}
 
                     <hr className="my-4" />

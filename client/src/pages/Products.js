@@ -11,6 +11,7 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 import { Filter } from "react-bootstrap-icons";
+import Roll from "../images/roll.svg";
 
 const Products = () => {
   const { products } = useContext(UserContext);
@@ -70,8 +71,8 @@ const Products = () => {
             </Col>
           ))
         ) : (
-          <Col sm={12}>
-            <p>No results found.</p>
+          <Col className="text-center" sm={12}>
+            <img src={Roll} />
           </Col>
         )}
       </Row>

@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Footer from "../components/Footer";
 import landingImage from "../images/cheerful-woman.jpg";
 import { Link } from "react-router-dom";
+import { BagCheckFill } from "react-bootstrap-icons";
 
 const Home = () => {
   return (
@@ -30,6 +31,7 @@ const Home = () => {
                 className="btn btn-light"
               >
                 Shop Now
+                <BagCheckFill className="ms-2" size={20} />
               </Link>
             </Col>
 
