@@ -39,6 +39,7 @@ const Products = () => {
       <div className="d-flex align-items-baseline justify-content-between">
         <Form inline className="mt-5 flex-grow-1">
           <FormControl
+            autoFocus
             type="text"
             placeholder="Search by name"
             className="mr-sm-2 w-100"

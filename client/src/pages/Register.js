@@ -102,6 +102,7 @@ const Register = () => {
         <Form.Group className="mt-4" controlId="firstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control
+            autoFocus
             type="text"
             name="firstName"
             value={formData.firstName}

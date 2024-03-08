@@ -1,27 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Table } from "react-bootstrap";
+import UserContext from "../UserContext";
 
 const Order = () => {
-  const [orders, setOrders] = useState([]);
+  const { orders } = useContext(UserContext);
 
   return (
-    <Container>
-      <Row>
-        <Col>Product Image</Col>
-        <Col>Quantity</Col>
-        <Col>Date purchased</Col>
-        <Col>Total Amount</Col>
-      </Row>
-      {/* Render order data */}
-      {orders.map((order) => (
-        <Row key={order.id}>
-          <Col>{order.productImage}</Col>
-          <Col>{order.quantity}</Col>
-          <Col>{order.datePurchased}</Col>
-          <Col>{order.totalAmount}</Col>
-        </Row>
-      ))}
-    </Container>
+    <Table striped bordered hover>
+      <thead className="text-center">
+        <tr>
+          <th>Product Image</th>
+          <th>Status</th>
+          <th>Date purchased</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody className="text-center">
+        {/* Render order data */}
+        {orders.map((order) => (
+          <tr key={order._id}>
+            <td>
+              <img
+                style={{ width: "50px" }}
+                src={order.productsOrdered[0].imageLink}
+              />
+            </td>
+            <td>{order.status}</td>
+            <td>{order.orderedOn}</td>
+            <td>$ {order.totalPrice}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 };
 

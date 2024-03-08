@@ -22,6 +22,7 @@ function App() {
     lastName: null,
   });
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState(null);
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -62,8 +63,46 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(`${API_URL}/cart/all`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((products) => {
+        setCart(products);
+      })
+      .catch((error) => {});
+  }, []);
+
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    fetch(`${API_URL}/orders/my-orders`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setOrders(data.message);
+      });
+  }, []);
+
   return (
-    <UserProvider value={{ user, setUser, unsetUser, products, setProducts }}>
+    <UserProvider
+      value={{
+        user,
+        setUser,
+        unsetUser,
+        products,
+        setProducts,
+        cart,
+        setCart,
+        orders,
+      }}
+    >
       <Router>
         <Navbar />
         <Routes>

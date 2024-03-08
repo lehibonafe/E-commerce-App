@@ -35,12 +35,11 @@ const Home = () => {
               </Link>
             </Col>
 
-            <Col lg={6} className="d-flex align-items-center">
+            <Col lg={6} className="text-center">
               <img
                 style={{
-                  maxWidth: "1000px",
+                  maxWidth: "700px",
                   height: "auto",
-                  objectFit: "cover",
                 }}
                 src={landingImage}
                 alt="Cheerful Woman"

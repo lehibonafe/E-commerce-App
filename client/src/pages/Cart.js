@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Container,
   Row,
@@ -9,33 +9,14 @@ import {
   Form,
 } from "react-bootstrap";
 import { PlusLg, DashLg, ArrowLeft, Trash3 } from "react-bootstrap-icons";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import UserContext from "../UserContext";
 import Swal from "sweetalert2";
-import Roll from "../images/roll.svg";
 
 const Cart = () => {
-  const [cart, setCart] = useState(null);
-  const { user } = useContext(UserContext);
-  const [selectedShippingFee, setSelectedShippingFee] = useState(5);
+  const { cart, setCart } = useContext(UserContext);
 
   const API_URL = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    fetch(`${API_URL}/cart/all`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((products) => {
-        setCart(products);
-      })
-      .catch((error) => {
-        console.error("Error fetching cart data:", error);
-      });
-  }, []);
 
   const cartItemsCount =
     cart && cart.cartItems && cart.cartItems ? cart.cartItems.length : 0;
@@ -106,7 +87,6 @@ const Cart = () => {
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, Checkout",
         confirmButtonColor: "#fb8500",
@@ -124,6 +104,11 @@ const Cart = () => {
             .then((data) => {
               // Handle the response from the server
               console.log("Checkout successful:", data);
+              setCart({
+                ...cart,
+                cartItems: [],
+                totalPrice: 0,
+              });
             })
             .catch((error) => {
               console.error("Error during checkout:", error);
@@ -266,7 +251,7 @@ const Cart = () => {
                       </>
                     ) : (
                       <div className="text-center">
-                        <img src={Roll} />
+                        <p>No items in the cart.</p>
                       </div>
                     )}
 

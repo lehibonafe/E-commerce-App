@@ -69,6 +69,7 @@ const LoginForm = () => {
             Email address :
           </Form.Label>
           <Form.Control
+            autoFocus
             style={{ fontSize: ".8rem" }}
             className="shadow-none"
             type="email"
